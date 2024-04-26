@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ProntoChef.Models.OrderItem>
+
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <style>
+        body {
+            color: white;
+        }
+
+        h2, th, td {
+            color: white;
+        }
+        .custom-link-style {
+            color: rgb(234, 18, 126);
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: font-size 0.3s ease;
+            padding: 5px;
+        }
+
+            .custom-link-style:hover {
+                font-size: 18px;
+                color: white;
+                font-size: large;
+            }
+        tr {
+            border-color: #681747;
+            border-style:solid;
+            border-width:0px;
+        }
+    </style>
+</head>
+<h2>Chef Prenotati</h2>
+
+<p>
+    @Html.ActionLink("Crea Prenotazione", "Create", null, new { @class = "custom-link-style" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Data e Ora :")
+        </th>
+        <th>
+            @Html.DisplayName("Chef :")
+        </th>
+        <th>
+            @Html.DisplayName("Cooking Session :")
+        </th>
+        <th>
+            @Html.DisplayName("Totale :")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderSummary.OrderDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemPrice)
+        </td>
+        <td>
+            @Html.ActionLink("Modifica", "Edit", new { id=item.OrderItemId }, new { @class = "btn btn-success btn-sm" })
+            @Html.ActionLink("Dettagli", "Details", new { id=item.OrderItemId }, new { @class = "btn btn-secondary btn-sm" })
+            @Html.ActionLink("Elimina", "Delete", new { id=item.OrderItemId }, new { @class = "btn btn-danger btn-sm" })
+        </td>
+    </tr>
+}
+
+</table>

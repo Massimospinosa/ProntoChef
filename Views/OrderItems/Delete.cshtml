@@ -1,0 +1,51 @@
+﻿@model ProntoChef.Models.OrderItem
+
+@{
+    ViewBag.Title = "Delete";
+}
+<head>
+    <style>
+        body {
+            color: white;
+        }
+
+        h2, th, td {
+            color: white;
+        }
+    </style>
+</head>
+<h2>Stai cancellando una prenotazione, sei davvero sicuro?</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+       
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemPrice)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Elimina" class="btn btn-danger" /> 
+            @Html.ActionLink("Torna Indietro", "Index", null ,new { @class = "btn btn-info" })
+        </div>
+    }
+</div>

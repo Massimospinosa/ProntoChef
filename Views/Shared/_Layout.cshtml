@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title> ProntoChef</title>
+    <link rel="icon" type="png" href="https://e7.pngegg.com/pngimages/565/647/png-clipart-chefs-uniform-hat-cook-chef-hat-askew-angle-white.png" />
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
+</head>
+<style>
+    body {
+        background-color: #2c0d48;
+        background-image: linear-gradient(to bottom, #2c0d48, #751947); 
+        color:#0c0404;
+        
+    }
+    .prontoFooter{
+        color:white;
+    }
+    nav.navbar.navbar-expand-sm.navbar-toggleable-sm.navbar-dark.bg-transparent {
+        margin-left: 10%;
+    }
+    
+    </style>
+<body class="min-vh-100 d-flex flex-column">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-transparent">
+        <div class="container">
+            @Html.ActionLink("ProntoChef", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Attiva/Disattiva spostamento" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+           <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                    {
+                        if (HttpContext.Current.User.IsInRole("admin"))
+                        {
+                            <li>@Html.ActionLink("Chef", "Index", "Products", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("Utenti", "Index", "Users", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("Prenotazioni", "Index", "OrderItems", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("Dettagli Prenotazioni", "Index", "OrderSummaries", new { area = "" }, new { @class = "nav-link" })</li>
+                        }
+                        <li>@Html.ActionLink("Riepilogo Ordine", "Summary", "OrderSummaries", new { area = "" }, new { @class = "nav-link" })</li>
+                        using (Html.BeginForm("Logout", "Auth"))
+                        {
+                            <button class="btn btn-danger">Logout</button>
+                        }
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Accedi o Registrati", "Login", "Auth", new { area = "" }, new { @class = "nav-link btn btn-primary text-light" })</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content flex-grow-1">
+        @RenderBody()
+        <hr />
+        <footer class="mt-auto">
+            <div class="container">
+                <p class="prontoFooter">
+                    &copy; 2024 ProntoChef
+                </p>
+                <p> Contatti: <a href="https://www.linkedin.com/in/massimo-emanuele-spinosa-a92377289/" class="text-white">Linkedin</a>
+                <a href="https://github.com/Massimospinosa" class="text-white">GitHub</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

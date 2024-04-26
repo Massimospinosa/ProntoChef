@@ -1,0 +1,170 @@
+﻿@model IEnumerable<ProntoChef.Models.Product>
+
+@{
+    ViewBag.Title = "HomePage";
+}
+
+@section styles {
+    <style>
+        body {
+            background-color: #2c0d48;
+            background-image: linear-gradient(to bottom, #2c0d48, #751947);
+        }
+
+
+        .card:hover {
+            box-shadow: 0 0 10px #b5b5b5;
+            transform: scale(1.05);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .contatori {
+            width: 350px;
+            height: 150px;
+            border: 4px inset #431148;
+            border-radius: 80px;
+            box-shadow: 0px 4px 6px rgba(67, 17, 72, 0.1);
+            background-color: transparent;
+            color: white;
+            box-sizing: border-box;
+            padding: 3.5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .contaguadagno {
+            margin-left: 20%;
+        }
+
+        .contprenotaizoni {
+            margin-left: 10%;
+        }
+
+        #giorno {
+            margin-right: 75px;
+        }
+
+        img {
+            object-fit: cover;
+        }
+
+        .bgcardcust {
+            background-color: rgb(98, 22, 72);
+        }
+
+        .btncust {
+            background-color: #390F47;
+        }
+
+        h1 {
+            margin-bottom: 2%;
+        }
+    </style>
+}
+
+@if (TempData["OrderSuccess"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        L'ordine è stato effettuato con successo!
+    </div>
+}
+
+<div class="p-5 text-white bg-transparent text-center">
+    <h1>Sei su ProntoChef</h1>
+    <h2>Consulta la nostra vetrina e prenota uno Chef direttamente a casa tua!</h2>
+    <h3>Per un esperienza culinaria indimenticabile! </h3>
+</div>
+
+@if (HttpContext.Current.User.IsInRole("admin"))
+{
+    <div class="d-flex justify-content-evenly my-3">
+        <div class="contatori">
+            <h4 class="contprenotazioni">Prenotazioni Totali</h4>
+            <h4 id="numOrdiniEvasi" class="contaguadagno"></h4>
+        </div>
+        <div class="contatori">
+            <h4 class="contprenotaizoni">Giorno Guadagno</h4>
+            <div class="d-flex contaguadagno">
+                <select name="giorno" id="giorno">
+                    @for (int i = 1; i < 32; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+                <h4 id="incassiGiorno"></h4>
+            </div>
+        </div>
+    </div>
+}
+
+<main>
+    <div class="row g-3 justify-content-evenly mt-2">
+        @foreach (var item in Model)
+        {
+
+            <div class="card bgcardcust col-xs-6 " style="width: 18rem;">
+                <img src=@item.ProductImage class="card-img-top mt-2" alt="..." style="height: 200px;">
+                <div class="card-body">
+                    <h4 class="card-title text-white">@item.ProductName</h4>
+                    <p class="card-text text-white">Piatto: @item.Ingredients</p>
+                    <p class="card-text text-white">@item.PreparationTime minuti</p>
+                </div>
+                <h5 class="card-text text-white mt-auto mb-2 mx-3">@item.ProductPrice €</h5>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="text-end">
+                        @Html.ActionLink("Prenota", "Details", "Products", new { id = item.ProductId }, new { @class = "btn btncust border border-gray-500 text-white  mt-auto mb-3 m-2" })
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</main>
+
+
+
+
+@section scripts
+{
+    <script>
+        let ordiniEvasi = document.querySelector("#numOrdiniEvasi")
+        let giorni = document.querySelector("#giorno")
+        let incassiGiorno = document.querySelector("#incassiGiorno")
+        let currentUrl = window.location.href;
+
+        calcoloOrdiniEvasi();
+
+        async function calcoloOrdiniEvasi() {
+            try {
+                const res = await fetch(currentUrl + "/OrderSummaries/OrdiniEvasi")
+                if (res.ok) {
+                    const data = await res.json();
+                    ordiniEvasi.innerText = data;
+                }
+                else {
+                    console.log('Errore durante il caricamento')
+                }
+            }
+            catch (err) {
+                console.log('ERROR', err)
+            }
+        }
+
+        giorni.addEventListener("change", async () => {
+            try {
+                const res = await fetch(currentUrl + "/OrderSummaries/IncassiPerGiorno/" + giorni.value);
+                if (res.ok) {
+                    const data = await res.json();
+                    incassiGiorno.innerText = data + "€";
+                }
+                else {
+                    console.log('Errore durante il caricamento')
+                }
+            }
+            catch (err) {
+                console.log('ERROR', err)
+            }
+        })
+    </script>
+}

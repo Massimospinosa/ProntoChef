@@ -1,0 +1,75 @@
+﻿@model ProntoChef.Models.OrderSummary
+
+@{
+    ViewBag.Title = "Details";
+}
+<head>
+    <style>
+        body {
+            color: white;
+        }
+
+        h2, th, td {
+            color: white;
+        }
+    </style>
+</head>
+<h2>Dettagli pranotazione :</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("ID :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Data :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Indirizzo :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Note :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Totale :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Stato :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.State)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Modifica", "Edit", new { id = Model.OrderSummaryId },new {@class = "btn btn-success"})
+    @Html.ActionLink("Torna Indietro", "Index", null, new { @class = "btn btn-info" })
+</p>

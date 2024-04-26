@@ -1,0 +1,80 @@
+﻿@model ProntoChef.Models.User
+
+@{
+    ViewBag.Title = "Delete";
+}
+<head>
+    <style>
+        body {
+            color: white;
+        }
+
+        h2, th, td {
+            color: white;
+        }
+    </style>
+</head>
+<h2>Sei sicuro di voler eliminare questo Utente?</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Email :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Password :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Nome :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Cognome :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Telefono :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Ruolo :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Elimina" class="btn btn-danger" /> |
+            @Html.ActionLink("Torna Indietro", "Index", null, new { @class = "btn btn-info" })
+        </div>
+    }
+</div>

@@ -1,0 +1,114 @@
+﻿@model ProntoChef.Models.OrderSummary
+
+@{
+    ViewBag.Title = "Summary";
+}
+
+@section styles
+{
+    <style>
+        .summary {
+            width: 80%;
+            box-sizing: border-box;
+            margin: 25px auto 0 auto;
+            padding: 18px;
+            border: 3px solid #721847;
+            border-radius: 10px;
+        }
+
+        
+        body {
+            color: white;
+        }
+
+        h2, h3, h4, th, td {
+            color: white;
+        }
+        .card-text{
+            color:white;
+        }
+        .btncust {
+            background-color: #390F47;
+        }
+        .imgsummary{
+            object-fit:cover;
+        }
+
+    </style>
+   
+}
+
+@if (TempData["ItemRemoved"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        Chef rimosso!
+    </div>
+}
+
+<div class="container">
+    <div class="summary">
+        <h2>...Ecco lo Chef che ti delizierà </h2>
+        <hr />
+        @if (Model == null || !Model.OrderItems.Any())
+        {
+            <h2 class="text-center my-5">Ops non ci sono Chef prenotati! </h2>
+        }
+        else
+        {
+            <div class="d-flex flex-wrap justify-content-between">
+                @foreach (var item in Model.OrderItems)
+                {
+                    <div class="card m-3 bg-transparent border border-white" style="max-width: 450px;  overflow:hidden">
+                        <div class="row g-0">
+                            <div class="col-md-4 bg-transparent">
+                                <img src="@item.Product.ProductImage" class="imgsummary rounded-start h-100 w-100" alt="...">
+                            </div>
+                            <div class="col-md-8 bg-transparent">
+                                <div class="card-body p-1">
+                                    <h5 class="card-title align-text-center text-white">@item.Product.ProductName x @item.Quantity Cooking Session</h5>
+                                    <p class="card-text"> Etnia : @item.Product.Category</p>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="card-text text-end">Prezzo Totale : @item.ItemPrice€</p>
+                                        @using (Html.BeginForm("DeleteItem", "OrderSummaries", new { id = item.OrderItemId }, FormMethod.Post, new { @class = "d-inline mb-1" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-danger">Elimina</button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        @if (Model != null && Model.State == "NON EVASO")
+        {
+            <div class="d-flex justify-content-around px-3">
+                @using (Html.BeginForm("Edit", "OrderSummaries", new { id = Model.OrderSummaryId }, FormMethod.Post, new { @class = "w-50" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <h4>Data e Ora :</h4>
+                        @Html.EditorFor(m => m.OrderDate, new { htmlAttributes = new { @class = "form-control", type = "datetime-local" } })
+                    </div>
+                    <div class="form-group">
+                        <h4 class="mt-1">Indirizzo :</h4>
+                        @Html.EditorFor(m => m.OrderAddress, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="form-group">
+                        <h4 class="mt-1">Informazioni Aggiuntive :</h4>
+                        @Html.TextAreaFor(m => m.Note, new { @class = "form-control", rows = "3", placeholder = "Fai sapere allo Chef qualcosa in più!" })
+                    </div>
+                    <button class="btn text-white btncust mt-3">Conferma!</button>
+                }
+                <div class="text-end w-50">
+                    <h3>Costo Totale : </h3>
+                    <hr />
+                    <h4>@ViewBag.SumPrice€</h4>
+                </div>
+            </div>
+        }
+    </div>
+</div>

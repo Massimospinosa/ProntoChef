@@ -1,0 +1,75 @@
+﻿@model ProntoChef.Models.User
+
+@{
+    ViewBag.Title = "Details";
+}
+<head>
+    <style>
+        body {
+            color: white;
+        }
+
+        h2, th, td {
+            color: white;
+        }
+    </style>
+</head>
+<h2>Dettagli Utente</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Email :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Password :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Nome :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Cognome :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Telefono :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Ruolo :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Modifica", "Edit", new { id = Model.UserId }, new { @class = "btn btn-success" })
+    @Html.ActionLink("Torna Indietro", "Index", null, new { @class = "btn btn-info" })
+</p>

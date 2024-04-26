@@ -1,0 +1,73 @@
+﻿@model ProntoChef.Models.OrderItem
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+@if (TempData["ProductSuccess"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        Aggiunto al Riepilogo Ordine! 
+ 
+    </div>
+}
+<head>
+    <style>
+        body {
+            color: white;
+        }
+
+        h2, th, td {
+            color: white;
+        }
+
+    </style>
+</head>
+<h2>@ViewBag.Product.ProductName</h2>
+
+<div>
+    <hr />
+    <div class="d-flex justify-content-between">
+        <div class="d-flex">
+            <div>
+                <img src=@ViewBag.Product.ProductImage alt="" style="width: 400px" />
+            </div>
+            <div class="mx-3">
+                <h4>Chef :</h4>
+                <p>@ViewBag.Product.ProductName</p>
+                <h4>Etnia :</h4>
+                <p>@ViewBag.Product.Category</p>
+                <h4>Tempo di Preparazione :</h4>
+                <p>@ViewBag.Product.PreparationTime min</p>
+                <h4>Piatto :</h4>
+                <p>@ViewBag.Product.Ingredients</p>
+                <h4>Prezzo Per Cooking Session :</h4>
+                <h5>@ViewBag.Product.ProductPrice€</h5>
+            </div>
+        </div>
+        <div class="d-flex flex-column justify-content-center">
+            @using (Html.BeginForm("Create", "OrderItems", new { id = ViewBag.Product.ProductId }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.DropDownListFor(model => model.Quantity, Enumerable.Range(1, 3).Select(i => new SelectListItem
+                {
+                    Text = i.ToString(),
+                    Value = i.ToString()
+                }), "Quante Cooking Session?", new { @class = "form-select" })
+
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+
+                <button class="btn btn-success mt-2" type="submit">Ordina</button>
+            }
+        </div>
+    </div>
+</div>
+@if (HttpContext.Current.User.IsInRole("admin"))
+{
+    <p>
+        @Html.ActionLink("Modifica", "Edit", new { id = ViewBag.Product.ProductId }, new { @class = "btn btn-success" })
+        @Html.ActionLink("Torna Indietro", "Index", null, new { @class = "btn btn-info" })
+    </p>
+}

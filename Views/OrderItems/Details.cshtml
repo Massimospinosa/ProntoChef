@@ -1,0 +1,45 @@
+﻿@model ProntoChef.Models.OrderItem
+
+@{
+    ViewBag.Title = "Details";
+}
+<head>
+    <style>
+        body {
+            color: white;
+        }
+
+        h2, th, td {
+            color: white;
+        }
+    </style>
+</head>
+<h2>Dettagli Chef Prenotati</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        
+
+        <dt>
+            @Html.DisplayName("Cooking Session :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Totale :")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemPrice)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Modifica", "Edit", new { id = Model.OrderItemId },  new { @class = "btn btn-success" })
+    @Html.ActionLink("Torna Indietro", "Index", null, new { @class = "btn btn-info" })
+</p>

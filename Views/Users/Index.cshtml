@@ -1,0 +1,96 @@
+﻿@model IEnumerable<ProntoChef.Models.User>
+
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <style>
+        body {
+            color: white;
+        }
+
+        h2, th, td {
+            color: white;
+        }
+        .custom-link-style {
+            color: rgb(234, 18, 126);
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: font-size 0.3s ease;
+            padding: 5px; 
+        }
+
+            .custom-link-style:hover {
+                font-size: 18px;
+                color: white;
+                font-size: large;
+            }
+
+        img {
+            object-fit: cover;
+        }
+        tr {
+            border-color: #681747;
+            border-style: solid;
+            border-width: 0px;
+        }
+    </style>
+</head>
+<h2>Elenco Utenti</h2>
+
+<p>
+    @Html.ActionLink("Aggiungi Utente", "Create", null, new { @class = "custom-link-style" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayName("Nome")
+        </th>
+        <th>
+            @Html.DisplayName("Cognome")
+        </th>
+        <th>
+            @Html.DisplayName("Telefono")
+        </th>
+        <th>
+            @Html.DisplayName("Ruolo")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Role)
+        </td>
+        <td>
+            @Html.ActionLink("Modifica", "Edit", new { id=item.UserId }, new { @class = "btn btn-success btn-sm" })
+            @Html.ActionLink("Dettagli", "Details", new { id=item.UserId }, new { @class = "btn btn-secondary btn-sm" })
+            @Html.ActionLink("Elimina", "Delete", new { id=item.UserId }, new { @class = "btn btn-danger btn-sm" })
+        </td>
+    </tr>
+}
+
+</table>
