@@ -69,7 +69,7 @@ namespace ProntoChef.Controllers
             return View(user);
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,31 +77,25 @@ namespace ProntoChef.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            if (HttpContext.User.Identity.Name == id.ToString())
+            User user = db.Users.Find(id);
+            if (user == null)
             {
-                User user = db.Users.Find(id);
-                if (user == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(user);
+                return HttpNotFound();
             }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            return View(user);
         }
+
 
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserId,Email,Password,Name,Surname,Phone")] User user)
+        public ActionResult Edit([Bind(Include = "UserId,Email,Password,Name,Surname,Phone,Role")] User user)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index" ,"Home");
             }
             return View(user);
         }

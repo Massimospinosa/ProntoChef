@@ -46,7 +46,7 @@ namespace ProntoChef.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductId,ProductName,ProductPhone,ProductPrice,PreparationTime,Ingredients,Category")] Product product)
+        public ActionResult Create([Bind(Include = "ProductId,ProductName,ProductImage,ProductPhone,ProductPrice,PreparationTime,Ingredients,Category")] Product product)
         {
             if (ModelState.IsValid)
             {
